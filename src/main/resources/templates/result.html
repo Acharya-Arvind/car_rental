@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Booking Details</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<section class="table_container">
+  <h1>Your Booking Details</h1>
+  <table>
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date of Birth</th>
+      <th>Phone Number</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Booked Car</th>
+      <th>From Date</th>
+      <th>To Date</th>
+      <th>Location</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${book}">
+      <td th:text="${product.name}"></td>
+      <td th:text="${product.dob}"></td>
+      <td th:text="${product.phone}"></td>
+      <td th:text="${product.email}"></td>
+      <td th:text="${product.address}"></td>
+      <td th:text="${product.car}"></td>
+      <td th:text="${product.f_date}"></td>
+      <td th:text="${product.t_date}"></td>
+      <td th:text="${product.location}"></td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>

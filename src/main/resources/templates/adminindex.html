@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Home</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            background: #f9f9f9;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            color: #f5b754;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 5px 0;
+            transition: background 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #444;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            background: white;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f5b754;
+            color: white;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            background-color: #48c6ef;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #39a0c9;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <h2>Dashboard</h2>
+    <a href="#" onclick="showSection('all-bookings')">All Bookings</a>
+    <a href="#" onclick="showSection('user-queries')">User Queries</a>
+    <a href="#" onclick="showSection('user-management')">User Management</a>
+</div>
+
+<div class="content">
+
+    <div id="all-bookings" class="section" style="display: none;">
+        <div class="header">
+            <h1 id="section-title1">Welcome to the Admin Dashboard</h1>
+            <div class="nav_btn">
+                <a href="/logout"><button class="btn">LOGOUT</button></a>
+            </div>
+        </div>
+        <h2>All Bookings</h2>
+        <table class="table">
+            <thead>
+            <tr>
+<!--                <th><input type="checkbox" id="select-all-bookings" onclick="toggleSelectAll(this, 'booking-checkbox')"></th>-->
+                <th>Owner</th>
+                <th>Name</th>
+                <th>Date of Birth</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Booked Car</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Location</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${book}">
+<!--                <td><input type="checkbox" class="booking-checkbox1"></td>-->
+                <td th:text="${product.owner}"></td>
+                <td th:text="${product.name}"></td>
+                <td th:text="${product.dob}"></td>
+                <td th:text="${product.phone}"></td>
+                <td th:text="${product.email}"></td>
+                <td th:text="${product.address}"></td>
+                <td th:text="${product.car}"></td>
+                <td th:text="${product.f_date}"></td>
+                <td th:text="${product.t_date}"></td>
+                <td th:text="${product.location}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="user-queries" class="section" style="display: none;">
+        <div class="header">
+            <h1 id="section-title2">Welcome to the Admin Dashboard</h1>
+            <div class="nav_btn">
+                <a href="/logout"><button class="btn">LOGOUT</button></a>
+            </div></div>
+        <h2>User Queries</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Complaint</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="complaint : ${query}">
+                <td th:text="${complaint.name}"></td>
+                <td th:text="${complaint.email}"></td>
+                <td th:text="${complaint.description}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="user-management" class="section" style="display: none;">
+        <div class="header">
+            <h1 id="section-title3">Welcome to the Admin Dashboard</h1>
+            <div class="nav_btn">
+                <a href="/logout"><button class="btn">LOGOUT</button></a>
+            </div></div>
+        <h2>User Management</h2>
+        <table class="table">
+            <thead>
+            <tr>
+<!--                <th><input type="checkbox" id="select-all-users" onclick="toggleSelectAll(this, 'user-checkbox')"></th>-->
+                <th>User Name</th>
+                <th>Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${user}">
+<!--                <td><input type="checkbox" class="user-checkbox" data-id="${user.id}"></td>-->
+                <td th:text="${user.user_name}"></td>
+                <td th:text="${user.user_email}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function showSection(sectionId) {
+        // Hide all sections
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.display = 'none';
+        });
+        // Show the selected section
+        document.getElementById(sectionId).style.display = 'block';
+        // Update the header title
+        document.getElementById('section-title1').innerText = document.getElementById(sectionId).querySelector('h2').innerText;
+    }
+
+    function deleteSelected(checkboxClass) {
+        const checkboxes = document.querySelectorAll(`.${checkboxClass}:checked`);
+        checkboxes.forEach(checkbox => {
+            checkbox.closest('tr').remove(); // Remove the entire row
+        });
+    }
+
+    function toggleSelectAll(selectAllCheckbox, checkboxClass) {
+        const checkboxes = document.querySelectorAll(`.${checkboxClass}`);
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectAllCheckbox.checked; // Set each checkbox to the same state as the select all checkbox
+        });
+    }
+
+
+    // Show the default section on page load
+    document.addEventListener("DOMContentLoaded", () => {
+        showSection('all-bookings'); // Default to showing All Bookings
+    });
+
+    
+</script>
+</body>
+</html>
